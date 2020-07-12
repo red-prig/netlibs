@@ -62,7 +62,6 @@ type
    function getQuery(Raw:Boolean=false):RawByteString;
    function getRef(Raw:Boolean=false):RawByteString;
    function getFragment(Raw:Boolean=false):RawByteString; inline;
-   function _get(i:Byte):RawByteString;
  end;
 
 function parse_uri(const f:RawByteString;strict:Boolean=false):TURI;
@@ -703,45 +702,6 @@ function TURI.getFragment(Raw:Boolean=false):RawByteString; inline;
 begin
  Result:=getRef(Raw)
 end;
-
-function TURI._get(i:Byte):RawByteString;
-var
- R:TURIPart;
-begin
- R:=Default(TURIPart);
- case i of
-  0:R:=FProtocol;
-  1:R:=FUsername;
-  2:R:=FPassword;
-  3:R:=FHost;
-  4:R:=FPort;
-  5:R:=FPath;
-  6:R:=FQuery;
-  7:R:=FRef;
- end;
- Result:=Copy(FURI,R.P,R.L);
-end;
-
-{
-procedure test_uri;
-var
- URI:TURI;
- i:Byte;
-begin
- //URI:=parse_uri('wss://user:password@host:80/path/document?arg1=val1&arg2=val2#part',false);
- For i:=0 to 7 do Write(URI._get(i),'*');
- Writeln;
-
- URI:=parse_uri('wss://user:password@host.org .:80/path/document?arg1=val1&arg2=val2#par',false);
- For i:=0 to 7 do Write(URI._get(i),'*');
- writeln;
- Writeln(URI.GetHost());
-
-end;
-}
-
-initialization
-  //test_uri;
 
 end.
 
