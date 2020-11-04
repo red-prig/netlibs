@@ -155,7 +155,7 @@ implementation
 Const
  Def_MAX_STREAMS         =8;
  Def_MAX_FRAME_SIZE      =(4*1024);
- Def_MAX_HEADER_LIST_SIZE=20;
+ Def_MAX_HEADER_LIST_SIZE=High(uint32);
 
  Def_block_len           =(16*1024);
 
