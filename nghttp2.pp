@@ -41,21 +41,16 @@ interface
 {$mode objfpc}{$H+}
 {$codepage utf8}
 
-{$define USE_STATIC_LIBC}
+{/$define USE_STATIC_NGHTTP2}
 {/$define USE_CMEM}
 
-{$ifdef USE_STATIC_LIBC}
+{$ifdef USE_STATIC_NGHTTP2}
  {$Linklib nghttp2.a, static}
 {$endif}
 
 uses
  {$IFDEF USE_CMEM}
-  {$IFDEF UNIX}
    cmem,
-  {$ENDIF}
-  {$IFDEF WINDOWS}
-   //mtHeap,
-  {$ENDIF}
  {$endif}
   ctypes;
 
@@ -575,318 +570,318 @@ Const
  NGHTTP2_STREAM_STATE_HALF_CLOSED_REMOTE = 6;
  NGHTTP2_STREAM_STATE_CLOSED = 7;
 
-procedure nghttp2_rcbuf_incref(rcbuf:Pnghttp2_rcbuf);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_rcbuf_incref(rcbuf:Pnghttp2_rcbuf);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_rcbuf_decref(rcbuf:Pnghttp2_rcbuf);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_rcbuf_decref(rcbuf:Pnghttp2_rcbuf);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_rcbuf_get_buf(rcbuf:Pnghttp2_rcbuf):Tnghttp2_vec;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_rcbuf_get_buf(rcbuf:Pnghttp2_rcbuf):Tnghttp2_vec;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_rcbuf_is_static(rcbuf:Pnghttp2_rcbuf):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_rcbuf_is_static(rcbuf:Pnghttp2_rcbuf):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_callbacks_new(Var callbacks_ptr:Pnghttp2_session_callbacks):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_callbacks_new(Var callbacks_ptr:Pnghttp2_session_callbacks):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_del(callbacks:Pnghttp2_session_callbacks);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_del(callbacks:Pnghttp2_session_callbacks);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_send_callback(cbs:Pnghttp2_session_callbacks; send_callback:Tnghttp2_send_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_send_callback(cbs:Pnghttp2_session_callbacks; send_callback:Tnghttp2_send_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_recv_callback(cbs:Pnghttp2_session_callbacks; recv_callback:Tnghttp2_recv_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_recv_callback(cbs:Pnghttp2_session_callbacks; recv_callback:Tnghttp2_recv_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_frame_recv_callback(cbs:Pnghttp2_session_callbacks; on_frame_recv_callback:Tnghttp2_on_frame_recv_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_frame_recv_callback(cbs:Pnghttp2_session_callbacks; on_frame_recv_callback:Tnghttp2_on_frame_recv_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_invalid_frame_recv_callback(cbs:Pnghttp2_session_callbacks; on_invalid_frame_recv_callback:Tnghttp2_on_invalid_frame_recv_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_invalid_frame_recv_callback(cbs:Pnghttp2_session_callbacks; on_invalid_frame_recv_callback:Tnghttp2_on_invalid_frame_recv_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_data_chunk_recv_callback(cbs:Pnghttp2_session_callbacks; on_data_chunk_recv_callback:Tnghttp2_on_data_chunk_recv_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_data_chunk_recv_callback(cbs:Pnghttp2_session_callbacks; on_data_chunk_recv_callback:Tnghttp2_on_data_chunk_recv_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_before_frame_send_callback(cbs:Pnghttp2_session_callbacks; before_frame_send_callback:Tnghttp2_before_frame_send_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_before_frame_send_callback(cbs:Pnghttp2_session_callbacks; before_frame_send_callback:Tnghttp2_before_frame_send_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_frame_send_callback(cbs:Pnghttp2_session_callbacks; on_frame_send_callback:Tnghttp2_on_frame_send_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_frame_send_callback(cbs:Pnghttp2_session_callbacks; on_frame_send_callback:Tnghttp2_on_frame_send_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_frame_not_send_callback(cbs:Pnghttp2_session_callbacks; on_frame_not_send_callback:Tnghttp2_on_frame_not_send_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_frame_not_send_callback(cbs:Pnghttp2_session_callbacks; on_frame_not_send_callback:Tnghttp2_on_frame_not_send_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_stream_close_callback(cbs:Pnghttp2_session_callbacks; on_stream_close_callback:Tnghttp2_on_stream_close_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_stream_close_callback(cbs:Pnghttp2_session_callbacks; on_stream_close_callback:Tnghttp2_on_stream_close_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_begin_headers_callback(cbs:Pnghttp2_session_callbacks; on_begin_headers_callback:Tnghttp2_on_begin_headers_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_begin_headers_callback(cbs:Pnghttp2_session_callbacks; on_begin_headers_callback:Tnghttp2_on_begin_headers_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_header_callback(cbs:Pnghttp2_session_callbacks; on_header_callback:Tnghttp2_on_header_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_header_callback(cbs:Pnghttp2_session_callbacks; on_header_callback:Tnghttp2_on_header_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_header_callback2(cbs:Pnghttp2_session_callbacks; on_header_callback2:Tnghttp2_on_header_callback2);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_header_callback2(cbs:Pnghttp2_session_callbacks; on_header_callback2:Tnghttp2_on_header_callback2);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_invalid_header_callback(cbs:Pnghttp2_session_callbacks; on_invalid_header_callback:Tnghttp2_on_invalid_header_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_invalid_header_callback(cbs:Pnghttp2_session_callbacks; on_invalid_header_callback:Tnghttp2_on_invalid_header_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_invalid_header_callback2(cbs:Pnghttp2_session_callbacks; on_invalid_header_callback2:Tnghttp2_on_invalid_header_callback2);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_invalid_header_callback2(cbs:Pnghttp2_session_callbacks; on_invalid_header_callback2:Tnghttp2_on_invalid_header_callback2);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_select_padding_callback(cbs:Pnghttp2_session_callbacks; select_padding_callback:Tnghttp2_select_padding_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_select_padding_callback(cbs:Pnghttp2_session_callbacks; select_padding_callback:Tnghttp2_select_padding_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_data_source_read_length_callback(cbs:Pnghttp2_session_callbacks; data_source_read_length_callback:Tnghttp2_data_source_read_length_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_data_source_read_length_callback(cbs:Pnghttp2_session_callbacks; data_source_read_length_callback:Tnghttp2_data_source_read_length_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_begin_frame_callback(cbs:Pnghttp2_session_callbacks; on_begin_frame_callback:Tnghttp2_on_begin_frame_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_begin_frame_callback(cbs:Pnghttp2_session_callbacks; on_begin_frame_callback:Tnghttp2_on_begin_frame_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_send_data_callback(cbs:Pnghttp2_session_callbacks; send_data_callback:Tnghttp2_send_data_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_send_data_callback(cbs:Pnghttp2_session_callbacks; send_data_callback:Tnghttp2_send_data_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_pack_extension_callback(cbs:Pnghttp2_session_callbacks; pack_extension_callback:Tnghttp2_pack_extension_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_pack_extension_callback(cbs:Pnghttp2_session_callbacks; pack_extension_callback:Tnghttp2_pack_extension_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_unpack_extension_callback(cbs:Pnghttp2_session_callbacks; unpack_extension_callback:Tnghttp2_unpack_extension_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_unpack_extension_callback(cbs:Pnghttp2_session_callbacks; unpack_extension_callback:Tnghttp2_unpack_extension_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_on_extension_chunk_recv_callback(cbs:Pnghttp2_session_callbacks; on_extension_chunk_recv_callback:Tnghttp2_on_extension_chunk_recv_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_on_extension_chunk_recv_callback(cbs:Pnghttp2_session_callbacks; on_extension_chunk_recv_callback:Tnghttp2_on_extension_chunk_recv_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_error_callback(cbs:Pnghttp2_session_callbacks; error_callback:Tnghttp2_error_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_error_callback(cbs:Pnghttp2_session_callbacks; error_callback:Tnghttp2_error_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_callbacks_set_error_callback2(cbs:Pnghttp2_session_callbacks; error_callback2:Tnghttp2_error_callback2);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_callbacks_set_error_callback2(cbs:Pnghttp2_session_callbacks; error_callback2:Tnghttp2_error_callback2);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_option_new(Var option_ptr:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_option_new(Var option_ptr:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_del(option:Pnghttp2_option);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_del(option:Pnghttp2_option);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_no_auto_window_update(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_no_auto_window_update(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_peer_max_concurrent_streams(option:Pnghttp2_option; val:uint32);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_peer_max_concurrent_streams(option:Pnghttp2_option; val:uint32);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_no_recv_client_magic(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_no_recv_client_magic(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_no_http_messaging(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_no_http_messaging(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_max_reserved_remote_streams(option:Pnghttp2_option; val:uint32);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_max_reserved_remote_streams(option:Pnghttp2_option; val:uint32);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_user_recv_extension_type(option:Pnghttp2_option; _type:uint8);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_user_recv_extension_type(option:Pnghttp2_option; _type:uint8);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_builtin_recv_extension_type(option:Pnghttp2_option; _type:uint8);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_builtin_recv_extension_type(option:Pnghttp2_option; _type:uint8);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_no_auto_ping_ack(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_no_auto_ping_ack(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_max_send_header_block_length(option:Pnghttp2_option; val:size_t);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_max_send_header_block_length(option:Pnghttp2_option; val:size_t);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_max_deflate_dynamic_table_size(option:Pnghttp2_option; val:size_t);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_max_deflate_dynamic_table_size(option:Pnghttp2_option; val:size_t);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_no_closed_streams(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_no_closed_streams(option:Pnghttp2_option; val:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_client_new(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_client_new(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_server_new(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_server_new(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_client_new2(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_client_new2(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_server_new2(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_server_new2(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_client_new3(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_client_new3(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_server_new3(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_server_new3(Var session_ptr:Pnghttp2_session; callbacks:Pnghttp2_session_callbacks; user_data:pointer; option:Pnghttp2_option; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_del(session:Pnghttp2_session);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_del(session:Pnghttp2_session);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_send(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_send(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_mem_send(session:Pnghttp2_session;Var data_ptr:Puint8):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_mem_send(session:Pnghttp2_session;Var data_ptr:Puint8):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_recv(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_recv(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_mem_recv(session:Pnghttp2_session; _in:Puint8; inlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_mem_recv(session:Pnghttp2_session; _in:Puint8; inlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_resume_data(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_resume_data(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_want_read(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_want_read(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_want_write(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_want_write(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_user_data(session:Pnghttp2_session; stream_id:int32):pointer;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_user_data(session:Pnghttp2_session; stream_id:int32):pointer;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_set_stream_user_data(session:Pnghttp2_session; stream_id:int32; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_set_stream_user_data(session:Pnghttp2_session; stream_id:int32; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_session_set_user_data(session:Pnghttp2_session;user_data:pointer);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_session_set_user_data(session:Pnghttp2_session;user_data:pointer);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_outbound_queue_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_outbound_queue_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_effective_recv_data_length(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_effective_recv_data_length(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_effective_local_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_effective_local_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_local_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_local_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_effective_recv_data_length(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_effective_recv_data_length(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_effective_local_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_effective_local_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_local_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_local_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_remote_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_remote_window_size(session:Pnghttp2_session; stream_id:int32):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_remote_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_remote_window_size(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_local_close(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_local_close(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_stream_remote_close(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_stream_remote_close(session:Pnghttp2_session; stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_hd_inflate_dynamic_table_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_hd_inflate_dynamic_table_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_hd_deflate_dynamic_table_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_hd_deflate_dynamic_table_size(session:Pnghttp2_session):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_terminate_session(session:Pnghttp2_session; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_terminate_session(session:Pnghttp2_session; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_terminate_session2(session:Pnghttp2_session; last_stream_id:int32; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_terminate_session2(session:Pnghttp2_session; last_stream_id:int32; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_shutdown_notice(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_shutdown_notice(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_remote_settings(session:Pnghttp2_session; id:Tnghttp2_settings_id):uint32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_remote_settings(session:Pnghttp2_session; id:Tnghttp2_settings_id):uint32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_local_settings(session:Pnghttp2_session; id:Tnghttp2_settings_id):uint32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_local_settings(session:Pnghttp2_session; id:Tnghttp2_settings_id):uint32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_set_next_stream_id(session:Pnghttp2_session; next_stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_set_next_stream_id(session:Pnghttp2_session; next_stream_id:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_next_stream_id(session:Pnghttp2_session):uint32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_next_stream_id(session:Pnghttp2_session):uint32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_consume(session:Pnghttp2_session; stream_id:int32; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_consume(session:Pnghttp2_session; stream_id:int32; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_consume_connection(session:Pnghttp2_session; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_consume_connection(session:Pnghttp2_session; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_consume_stream(session:Pnghttp2_session; stream_id:int32; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_consume_stream(session:Pnghttp2_session; stream_id:int32; size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_change_stream_priority(session:Pnghttp2_session; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_change_stream_priority(session:Pnghttp2_session; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_create_idle_stream(session:Pnghttp2_session; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_create_idle_stream(session:Pnghttp2_session; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_upgrade(session:Pnghttp2_session; settings_payload:Puint8; settings_payloadlen:size_t; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_upgrade(session:Pnghttp2_session; settings_payload:Puint8; settings_payloadlen:size_t; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_upgrade2(session:Pnghttp2_session; settings_payload:Puint8; settings_payloadlen:size_t; head_request:cint; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_upgrade2(session:Pnghttp2_session; settings_payload:Puint8; settings_payloadlen:size_t; head_request:cint; stream_user_data:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_pack_settings_payload(buf:Puint8; buflen:size_t; iv:Pnghttp2_settings_entry; niv:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_pack_settings_payload(buf:Puint8; buflen:size_t; iv:Pnghttp2_settings_entry; niv:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_strerror(lib_error_code:cint):pcchar;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_strerror(lib_error_code:cint):pcchar;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_http2_strerror(error_code:uint32):pcchar;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_http2_strerror(error_code:uint32):pcchar;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_priority_spec_init(pri_spec:Pnghttp2_priority_spec; stream_id:int32; weight:int32; exclusive:cint);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_priority_spec_init(pri_spec:Pnghttp2_priority_spec; stream_id:int32; weight:int32; exclusive:cint);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_priority_spec_default_init(pri_spec:Pnghttp2_priority_spec);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_priority_spec_default_init(pri_spec:Pnghttp2_priority_spec);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_priority_spec_check_default(pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_priority_spec_check_default(pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_submit_request(session:Pnghttp2_session; pri_spec:Pnghttp2_priority_spec; nva:Pnghttp2_nv; nvlen:size_t; data_prd:Pnghttp2_data_provider; 
-           stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_response(session:Pnghttp2_session; stream_id:int32; nva:Pnghttp2_nv; nvlen:size_t; data_prd:Pnghttp2_data_provider):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_response(session:Pnghttp2_session; stream_id:int32; nva:Pnghttp2_nv; nvlen:size_t; data_prd:Pnghttp2_data_provider):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_trailer(session:Pnghttp2_session; stream_id:int32; nva:Pnghttp2_nv; nvlen:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_trailer(session:Pnghttp2_session; stream_id:int32; nva:Pnghttp2_nv; nvlen:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_submit_headers(session:Pnghttp2_session; flags:uint8; stream_id:int32; pri_spec:Pnghttp2_priority_spec; nva:Pnghttp2_nv; 
-           nvlen:size_t; stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           nvlen:size_t; stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_data(session:Pnghttp2_session; flags:uint8; stream_id:int32; data_prd:Pnghttp2_data_provider):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_data(session:Pnghttp2_session; flags:uint8; stream_id:int32; data_prd:Pnghttp2_data_provider):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_priority(session:Pnghttp2_session; flags:uint8; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_priority(session:Pnghttp2_session; flags:uint8; stream_id:int32; pri_spec:Pnghttp2_priority_spec):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_rst_stream(session:Pnghttp2_session; flags:uint8; stream_id:int32; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_rst_stream(session:Pnghttp2_session; flags:uint8; stream_id:int32; error_code:uint32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_settings(session:Pnghttp2_session; flags:uint8; iv:Pnghttp2_settings_entry; niv:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_settings(session:Pnghttp2_session; flags:uint8; iv:Pnghttp2_settings_entry; niv:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_submit_push_promise(session:Pnghttp2_session; flags:uint8; stream_id:int32; nva:Pnghttp2_nv; nvlen:size_t; 
-           promised_stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           promised_stream_user_data:pointer):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_ping(session:Pnghttp2_session; flags:uint8; opaque_data:Puint8):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_ping(session:Pnghttp2_session; flags:uint8; opaque_data:Puint8):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_submit_goaway(session:Pnghttp2_session; flags:uint8; last_stream_id:int32; error_code:uint32; opaque_data:Puint8; 
-           opaque_data_len:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           opaque_data_len:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_last_proc_stream_id(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_last_proc_stream_id(session:Pnghttp2_session):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_check_request_allowed(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_check_request_allowed(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_check_server_session(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_check_server_session(session:Pnghttp2_session):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_window_update(session:Pnghttp2_session; flags:uint8; stream_id:int32; window_size_increment:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_window_update(session:Pnghttp2_session; flags:uint8; stream_id:int32; window_size_increment:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_set_local_window_size(session:Pnghttp2_session; flags:uint8; stream_id:int32; window_size:int32):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_set_local_window_size(session:Pnghttp2_session; flags:uint8; stream_id:int32; window_size:int32):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_submit_extension(session:Pnghttp2_session; _type:uint8; flags:uint8; stream_id:int32; payload:pointer):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_submit_extension(session:Pnghttp2_session; _type:uint8; flags:uint8; stream_id:int32; payload:pointer):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_submit_altsvc(session:Pnghttp2_session; flags:uint8; stream_id:int32; origin:Puint8; origin_len:size_t; 
-           field_value:Puint8; field_value_len:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           field_value:Puint8; field_value_len:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_nv_compare_name(lhs:Pnghttp2_nv; rhs:Pnghttp2_nv):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_nv_compare_name(lhs:Pnghttp2_nv; rhs:Pnghttp2_nv):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_select_next_protocol(Var out_:Pcuchar; outlen:pcuchar; in_:pcuchar; inlen:cuint):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_select_next_protocol(Var out_:Pcuchar; outlen:pcuchar; in_:pcuchar; inlen:cuint):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_version(least_version:cint):Pnghttp2_info;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_version(least_version:cint):Pnghttp2_info;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_is_fatal(lib_error_code:cint):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_is_fatal(lib_error_code:cint):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_check_header_name(name:Puint8; len:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_check_header_name(name:Puint8; len:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_check_header_value(value:Puint8; len:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_check_header_value(value:Puint8; len:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_new(Var deflater_ptr:Pnghttp2_hd_deflater; max_deflate_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_new(Var deflater_ptr:Pnghttp2_hd_deflater; max_deflate_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_new2(Var deflater_ptr:Pnghttp2_hd_deflater; max_deflate_dynamic_table_size:size_t; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_new2(Var deflater_ptr:Pnghttp2_hd_deflater; max_deflate_dynamic_table_size:size_t; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_hd_deflate_del(deflater:Pnghttp2_hd_deflater);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_hd_deflate_del(deflater:Pnghttp2_hd_deflater);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_change_table_size(deflater:Pnghttp2_hd_deflater; settings_max_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_change_table_size(deflater:Pnghttp2_hd_deflater; settings_max_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_hd(deflater:Pnghttp2_hd_deflater; buf:Puint8; buflen:size_t; nva:Pnghttp2_nv; nvlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_hd(deflater:Pnghttp2_hd_deflater; buf:Puint8; buflen:size_t; nva:Pnghttp2_nv; nvlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_hd_vec(deflater:Pnghttp2_hd_deflater; vec:Pnghttp2_vec; veclen:size_t; nva:Pnghttp2_nv; nvlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_hd_vec(deflater:Pnghttp2_hd_deflater; vec:Pnghttp2_vec; veclen:size_t; nva:Pnghttp2_nv; nvlen:size_t):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_bound(deflater:Pnghttp2_hd_deflater; nva:Pnghttp2_nv; nvlen:size_t):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_bound(deflater:Pnghttp2_hd_deflater; nva:Pnghttp2_nv; nvlen:size_t):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_get_num_table_entries(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_get_num_table_entries(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_get_table_entry(deflater:Pnghttp2_hd_deflater; idx:size_t):Pnghttp2_nv;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_get_table_entry(deflater:Pnghttp2_hd_deflater; idx:size_t):Pnghttp2_nv;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_get_dynamic_table_size(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_get_dynamic_table_size(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_deflate_get_max_dynamic_table_size(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_deflate_get_max_dynamic_table_size(deflater:Pnghttp2_hd_deflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_new(Var inflater_ptr:Pnghttp2_hd_inflater):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_new(Var inflater_ptr:Pnghttp2_hd_inflater):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_new2(Var inflater_ptr:Pnghttp2_hd_inflater; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_new2(Var inflater_ptr:Pnghttp2_hd_inflater; mem:Pnghttp2_mem):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_hd_inflate_del(inflater:Pnghttp2_hd_inflater);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_hd_inflate_del(inflater:Pnghttp2_hd_inflater);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_change_table_size(inflater:Pnghttp2_hd_inflater; settings_max_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_change_table_size(inflater:Pnghttp2_hd_inflater; settings_max_dynamic_table_size:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_hd_inflate_hd(inflater:Pnghttp2_hd_inflater; nv_out:Pnghttp2_nv; inflate_flags:pcint; in_:Puint8; inlen:size_t; 
-           in_final:cint):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           in_final:cint):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function  nghttp2_hd_inflate_hd2(inflater:Pnghttp2_hd_inflater; nv_out:Pnghttp2_nv; inflate_flags:pcint; in_:Puint8; inlen:size_t; 
-           in_final:cint):ssize_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+           in_final:cint):ssize_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_end_headers(inflater:Pnghttp2_hd_inflater):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_end_headers(inflater:Pnghttp2_hd_inflater):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_get_num_table_entries(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_get_num_table_entries(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_get_table_entry(inflater:Pnghttp2_hd_inflater; idx:size_t):Pnghttp2_nv;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_get_table_entry(inflater:Pnghttp2_hd_inflater; idx:size_t):Pnghttp2_nv;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_get_dynamic_table_size(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_get_dynamic_table_size(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_hd_inflate_get_max_dynamic_table_size(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_hd_inflate_get_max_dynamic_table_size(inflater:Pnghttp2_hd_inflater):size_t;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_find_stream(session:Pnghttp2_session; stream_id:int32):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_find_stream(session:Pnghttp2_session; stream_id:int32):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_state(stream:Pnghttp2_stream):Tnghttp2_stream_proto_state;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_state(stream:Pnghttp2_stream):Tnghttp2_stream_proto_state;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_session_get_root_stream(session:Pnghttp2_session):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_session_get_root_stream(session:Pnghttp2_session):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_parent(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_parent(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_stream_id(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_stream_id(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_next_sibling(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_next_sibling(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_previous_sibling(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_previous_sibling(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_first_child(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_first_child(stream:Pnghttp2_stream):Pnghttp2_stream;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_weight(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_weight(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_stream_get_sum_dependency_weight(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_stream_get_sum_dependency_weight(stream:Pnghttp2_stream):int32;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-//procedure nghttp2_set_debug_vprintf_callback(debug_vprintf_callback:Tnghttp2_debug_vprintf_callback);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+//procedure nghttp2_set_debug_vprintf_callback(debug_vprintf_callback:Tnghttp2_debug_vprintf_callback);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_nv_array_sort(nva:Pnghttp2_nv;nvlen:size_t);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_nv_array_sort(nva:Pnghttp2_nv;nvlen:size_t);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-function  nghttp2_check_authority(value:PAnsiChar;len:size_t):cint;cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+function  nghttp2_check_authority(value:PAnsiChar;len:size_t):cint;cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_max_outbound_ack(option:Pnghttp2_option;val:size_t);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_max_outbound_ack(option:Pnghttp2_option;val:size_t);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
-procedure nghttp2_option_set_max_settings(option:Pnghttp2_option;val:size_t);cdecl; external {$ifndef USE_STATIC_LIBC} NGHTTP2_LIB {$endif};
+procedure nghttp2_option_set_max_settings(option:Pnghttp2_option;val:size_t);cdecl; external {$ifndef USE_STATIC_NGHTTP2} NGHTTP2_LIB {$endif};
 
 function MAKE_NV(name,value:PChar;no_index:boolean=false):Tnghttp2_nv; inline;
 function make_nv_nocopy(name,value:PChar;no_index:boolean=false):Tnghttp2_nv; inline;
@@ -923,99 +918,99 @@ begin
 end;
 
 
-{$ifdef USE_STATIC_LIBC}
+{$ifdef USE_STATIC_NGHTTP2}
 
 {$IFDEF USE_CMEM}
 function __calloc(nelem,elsize:size_t):Pointer; cdecl; export; alias:'calloc';
 begin
  Result:=CAlloc(nelem,elsize);
 end;
+
+function _calloc(nelem,elsize:size_t):Pointer; cdecl; export;
+begin
+ Result:=CAlloc(nelem,elsize);
+end;
+
+procedure __free(P:Pointer); cdecl; export; alias:'free';
+begin
+ Free(P);
+end;
+
+procedure _free(P:Pointer); cdecl; export;
+begin
+ Free(P);
+end;
+
+function __malloc(size:size_t):Pointer; cdecl; export; alias:'malloc';
+begin
+ Result:=malloc(size);
+end;
+
+function _malloc(size:size_t):Pointer; cdecl; export;
+begin
+ Result:=malloc(size);
+end;
+
+function __realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export; alias:'realloc';
+begin
+ Result:=realloc(ptr,newsize);
+end;
+
+function _realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export;
+begin
+ Result:=realloc(ptr,newsize);
+end;
+
 {$ELSE}
 function calloc(nelem,elsize:size_t):Pointer; cdecl; export;
 begin
  Result:=AllocMem(nelem*elsize);
 end;
-{$ENDIF}
 
 function _calloc(nelem,elsize:size_t):Pointer; cdecl; export;
 begin
- {$IFDEF USE_CMEM}
- Result:=CAlloc(nelem,elsize);
- {$ELSE}
  Result:=AllocMem(nelem*elsize);
- {$ENDIF}
 end;
 
-{$IFDEF USE_CMEM}
-procedure __free(P:Pointer); cdecl; export; alias:'free';
-begin
- Free(P);
-end;
-{$ELSE}
 procedure free(P:Pointer); cdecl; export;
 begin
  FreeMem(P);
 end;
-{$ENDIF}
 
 procedure _free(P:Pointer); cdecl; export;
 begin
- {$IFDEF USE_CMEM}
- Free(P);
- {$ELSE}
  FreeMem(P);
- {$ENDIF}
 end;
 
-{$IFDEF USE_CMEM}
-function __malloc(size:size_t):Pointer; cdecl; export; alias:'malloc';
-begin
- Result:=malloc(size);
-end;
-{$ELSE}
 function malloc(size:size_t):Pointer; cdecl; export;
 begin
  Result:=GetMem(size);
 end;
-{$ENDIF}
 
 function _malloc(size:size_t):Pointer; cdecl; export;
 begin
- {$IFDEF USE_CMEM}
- Result:=malloc(size);
- {$ELSE}
  Result:=GetMem(size);
- {$ENDIF}
 end;
 
-{$IFDEF USE_CMEM}
-function __realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export; alias:'realloc';
-begin
- Result:=realloc(ptr,newsize);
-end;
-{$ELSE}
 function realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export;
 begin
  Result:=ReAllocMem(ptr,newsize);
 end;
-{$ENDIF}
 
 function _realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export;
 begin
- {$IFDEF USE_CMEM}
- Result:=realloc(ptr,newsize);
- {$ELSE}
  Result:=ReAllocMem(ptr,newsize);
- {$ENDIF}
 end;
 
-function ___udivdi3(a,b:culong):culong; cdecl; export;
+{$ENDIF}
+
+function ___udivdi3(a,b:cuint64):cuint64; cdecl; export;
 begin
  if (b=0) then Exit(0);
  Result:=a div b;
 end;
 
-function ___umoddi3(a,b:culong):culong; cdecl; export;
+function ___umoddi3(a,b:cuint64):cuint64; cdecl; export;
 begin
  if (b=0) then Exit(0);
  Result:=a mod b;
@@ -1067,6 +1062,26 @@ begin
 end;
 
 function ___ms_vsnprintf(d:PChar;n:size_t;format:PChar;arg:Pointer):cint; cdecl; export;
+begin
+ Result:=-1;
+end;
+
+function fprintf(stream:Pointer;format:PChar;arg_ptr:Pointer):cint; cdecl; export;
+begin
+ Result:=-1;
+end;
+
+function _fprintf(stream:Pointer;format:PChar;arg_ptr:Pointer):cint; cdecl; export;
+begin
+ Result:=-1;
+end;
+
+function fputc(char:cint;stream:Pointer):cint; cdecl; export;
+begin
+ Result:=-1;
+end;
+
+function _fputc(char:cint;stream:Pointer):cint; cdecl; export;
 begin
  Result:=-1;
 end;
@@ -1127,104 +1142,23 @@ begin
  Move(src^,dst^,num);
 end;
 
-type
- Tqsort_comparator=function(a,b:Pointer):cint; cdecl;
-
- Pq_st_rec=^Tq_st_rec;
- Tq_st_rec=object
-  base:Pointer;
-  size,L,J:size_t;
-  pp:Pointer;
-  Compare:Tqsort_comparator;
-  Function  list_p(i:size_t):Pointer; inline;
-  Procedure swap_p(a,b:size_t);
- end;
-
-Function Tq_st_rec.list_p(i:size_t):Pointer; inline;
+function __imp___iob_func():Pointer; cdecl; export;
 begin
- Result:=@PByte(base)[i*size];
+ Result:=nil;
 end;
 
-Procedure Tq_st_rec.swap_p(a,b:size_t); inline;
-Var
- pa,pb:Pointer;
- t,s:SizeUInt;
+function __imp___iob():Pointer; cdecl; export;
 begin
- pa:=list_p(a);
- pb:=list_p(b);
- s:=size div SizeOf(SizeUInt);
- While (s>0) do
- begin
-  t:=PSizeUInt(pa)^;
-  PSizeUInt(pa)^:=PSizeUInt(pb)^;
-  PSizeUInt(pb)^:=t;
-  pa:=@PSizeUInt(pa)[1];
-  pb:=@PSizeUInt(pb)[1];
-  Dec(s);
- end;
- s:=size mod SizeOf(SizeUInt);
- While (s>0) do
- begin
-  t:=PByte(pa)^;
-  PByte(pa)^:=PByte(pb)^;
-  PByte(pb)^:=t;
-  pa:=@PByte(pa)[1];
-  pb:=@PByte(pb)[1];
-  Dec(s);
- end;
+ Result:=nil;
 end;
 
-procedure QuickSort(pst:Pq_st_rec;R:size_t);
-var
- I:size_t;
+{$I qsort.inc}
+
+Procedure _qsort(pbase:Pointer;total_elems,size:size_t;cmp:Tqsort_comparator); cdecl; export;
 begin
- With pst^ do
-  repeat
-   I:=L;
-   J:=R;
-   PP:=list_p((L+R) shr 1);
-   repeat;
-    while Compare(list_p(I),PP)<0 do Inc(I);
-    while Compare(list_p(J),PP)>0 do Dec(J);
-    if (I<=J) then
-    begin;
-     swap_p(I,J);
-     Inc(I);
-     Dec(J);
-    end;
-   until (I>J);
-   if (L<J) then QuickSort(pst,J);
-   L:=I;
-  until (I>=R);
+ qsort(pbase,total_elems,size,cmp);
 end;
 
-Procedure qsort(base:Pointer;num,size:size_t;comparator:Tqsort_comparator); cdecl; export;
-Var
- st:Tq_st_rec;
-begin
- if (not Assigned(base))
- or (num=0) or (size=0) or
-    (not Assigned(comparator)) then Exit;
- st.base:=base;
- st.size:=size;
- st.L:=0;
- st.Compare:=comparator;
- QuickSort(@st,num-1);
-end;
-
-Procedure _qsort(base:Pointer;num,size:size_t;comparator:Tqsort_comparator); cdecl; export;
-Var
- st:Tq_st_rec;
-begin
- if (not Assigned(base))
- or (num=0) or (size=0) or
-    (not Assigned(comparator)) then Exit;
- st.base:=base;
- st.size:=size;
- st.L:=0;
- st.Compare:=comparator;
- QuickSort(@st,num-1);
-end;
 {$endif}
 
 end.
