@@ -41,9 +41,6 @@ interface
 {$mode objfpc}{$H+}
 {$codepage utf8}
 
-{/$define USE_STATIC_NGHTTP2}
-{/$define USE_CMEM}
-
 {$ifdef USE_STATIC_NGHTTP2}
  {$Linklib nghttp2.a, static}
 {$endif}
@@ -920,6 +917,7 @@ end;
 
 {$ifdef USE_STATIC_NGHTTP2}
 
+{$IFNDEF H2_NOT_CMEM}
 {$IFDEF USE_CMEM}
 function __calloc(nelem,elsize:size_t):Pointer; cdecl; export; alias:'calloc';
 begin
@@ -1001,21 +999,28 @@ function _realloc(ptr:Pointer;newsize:size_t):Pointer; cdecl; export;
 begin
  Result:=ReAllocMem(ptr,newsize);
 end;
-
+{$ENDIF}
 {$ENDIF}
 
+{$ifdef WIN32}
+{$IFNDEF H2_NOT_udivdi3}
 function ___udivdi3(a,b:cuint64):cuint64; cdecl; export;
 begin
  if (b=0) then Exit(0);
  Result:=a div b;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_umoddi3}
 function ___umoddi3(a,b:cuint64):cuint64; cdecl; export;
 begin
  if (b=0) then Exit(0);
  Result:=a mod b;
 end;
+{$ENDIF}
+{$ENDIF}
 
+{$IFNDEF H2_NOT_assert}
 procedure _assert(__assertion,__file,__line:PChar); cdecl; export;
 Var
  lineno:longint;
@@ -1041,11 +1046,15 @@ begin
   AssertErrorProc(__assertion,__file,lineno,get_caller_addr(get_frame));
  end;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_chkstk}
 procedure ___chkstk_ms; cdecl; export;
 begin
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_abort}
 procedure abort; cdecl; export;
 begin
  Halt;
@@ -1055,7 +1064,9 @@ procedure _abort; cdecl; export;
 begin
  Halt;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_ms_vsnprintf}
 function __ms_vsnprintf(d:PChar;n:size_t;format:PChar;arg:Pointer):cint; cdecl; export;
 begin
  Result:=-1;
@@ -1065,7 +1076,9 @@ function ___ms_vsnprintf(d:PChar;n:size_t;format:PChar;arg:Pointer):cint; cdecl;
 begin
  Result:=-1;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_fprintf}
 function fprintf(stream:Pointer;format:PChar;arg_ptr:Pointer):cint; cdecl; export;
 begin
  Result:=-1;
@@ -1075,7 +1088,9 @@ function _fprintf(stream:Pointer;format:PChar;arg_ptr:Pointer):cint; cdecl; expo
 begin
  Result:=-1;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_fputc}
 function fputc(char:cint;stream:Pointer):cint; cdecl; export;
 begin
  Result:=-1;
@@ -1085,7 +1100,9 @@ function _fputc(char:cint;stream:Pointer):cint; cdecl; export;
 begin
  Result:=-1;
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_strlen}
 function strlen(P:PChar):size_t; cdecl; export;
 begin
  Result:=System.strlen(P);
@@ -1095,7 +1112,9 @@ function _strlen(P:PChar):size_t; cdecl; export;
 begin
  Result:=System.strlen(P);
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_memcpy}
 function _memcpy(dst,src:Pointer;len:size_t):Pointer; cdecl; export;
 begin
  Result:=dst;
@@ -1107,7 +1126,9 @@ begin
  Result:=dst;
  Move(src^,dst^,len);
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_memset}
 function memset(ptr:Pointer;value:cint;num:size_t):Pointer; cdecl; export;
 begin
  Result:=ptr;
@@ -1119,7 +1140,9 @@ begin
  Result:=ptr;
  FillChar(ptr^,num,byte(value));
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_memcmp}
 function memcmp(buf1,buf2:Pointer;count:size_t):cint; cdecl; export;
 begin
  Result:=CompareByte(buf1^,buf2^,count);
@@ -1129,7 +1152,9 @@ function _memcmp(buf1,buf2:Pointer;count:size_t):cint; cdecl; export;
 begin
  Result:=CompareByte(buf1^,buf2^,count);
 end;
+{$ENDIF}
 
+{$IFNDEF H2_NOT_memmove}
 function memmove(dst,src:Pointer;num:size_t):Pointer; cdecl; export;
 begin
  Result:=dst;
@@ -1141,16 +1166,15 @@ begin
  Result:=dst;
  Move(src^,dst^,num);
 end;
+{$ENDIF}
 
-function __imp___iob_func():Pointer; cdecl; export;
-begin
- Result:=nil;
-end;
+{$IFNDEF H2_NOT_iob}
+const
+ __imp___iob          :Pointer=nil; export;
+ __imp___iob_func     :Pointer=nil; export;
+{$ENDIF}
 
-function __imp___iob():Pointer; cdecl; export;
-begin
- Result:=nil;
-end;
+{$IFNDEF H2_NOT_qsort}
 
 {$I qsort.inc}
 
@@ -1158,6 +1182,7 @@ Procedure _qsort(pbase:Pointer;total_elems,size:size_t;cmp:Tqsort_comparator); c
 begin
  qsort(pbase,total_elems,size,cmp);
 end;
+{$ENDIF}
 
 {$endif}
 
