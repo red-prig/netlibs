@@ -423,7 +423,7 @@ type
   function  _check_terminate:Boolean; inline;
   function  _send_header_begin_cb(cat:Tnghttp2_headers_category;P:Pfphttp1_stream):Boolean; inline;
   function  _send_header_end_cb(cat:Tnghttp2_headers_category;P:Pfphttp1_stream;len:size_t):Boolean; inline;
-  function  _send_data_end_cb(stream_id:int32;len:size_t):Boolean;
+  function  _send_data_end_cb(stream_id:int32;len:size_t):Boolean; inline;
  end;
 
 {
@@ -1374,14 +1374,25 @@ begin
 end;
 
 function Tfphttp1_session.step_next_stream:Boolean; inline;
+var
+ P:Pfphttp1_stream;
 begin
  Result:=false;
- if (Fstreams.parent.Fnext<>nil) then
-  if (Fstreams.parent.Fnext^.Fnext<>nil) then
+ P:=Fstreams.parent.Fnext;
+ if (P<>nil) then
+ begin
+  Case P^.Fstate of
+   NGHTTP2_STREAM_STATE_HALF_CLOSED_LOCAL :;
+   NGHTTP2_STREAM_STATE_HALF_CLOSED_REMOTE:;
+   NGHTTP2_STREAM_STATE_CLOSED            :;
+   else Exit;
+  end;
+  if (P^.Fnext<>nil) then
   begin
-   Fstreams.parent.Fnext:=Fstreams.parent.Fnext^.Fnext;
+   Fstreams.parent.Fnext:=P^.Fnext;
    Result:=true;
   end;
+ end;
 end;
 
 Procedure Tfphttp1_session._close_stream(is_recv:Boolean);
@@ -4474,6 +4485,12 @@ begin
 
   end else //client side
   begin
+
+   if send_cb=nil then
+   begin
+    step_next_stream;
+   end;
+
    P:=Fstreams.parent.Fnext;
 
    if send_cb=nil then
