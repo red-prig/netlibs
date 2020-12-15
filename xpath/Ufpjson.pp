@@ -104,11 +104,13 @@ type
   Procedure Reset; inline;
  end;
 
-Function StringToJSONString(const S : TJSONStringType;Strict:Boolean=False):TJSONStringType; inline;
-function _StringToJSONString(Var FAddStr:TAddStr;const S:TJSONStringType;Strict:Boolean=False):TJSONStringType;
-Function JSONStringToString(const S :TJSONStringType):TJSONStringType; inline;
-function _JSONStringToString(Var FAddStr:TUtf8AddStr;const S:TJSONStringType):TJSONStringType;
-Function JSONTypeName(JSONType:TJSONType):String;
+Function  StringToJSONString(const S : TJSONStringType;Strict:Boolean=False):TJSONStringType; inline;
+procedure _StringToJSONString(Var FAddStr:TAddStr;const S:TJSONStringType;Strict:Boolean=False); inline;
+procedure __StringToJSONString(Var FAddStr:TAddStr;P:PJSONCharType;Len:SizeInt;Strict:Boolean=False);
+Function  JSONStringToString(const S :TJSONStringType):TJSONStringType; inline;
+procedure _JSONStringToString(Var FAddStr:TUtf8AddStr;const S:TJSONStringType); inline;
+procedure __JSONStringToString(Var FAddStr:TUtf8AddStr;P:PJSONCharType;Len:SizeInt);
+Function  JSONTypeName(JSONType:TJSONType):String;
 
 implementation
 
@@ -233,59 +235,51 @@ Var
  FAddStr:TAddStr;
 begin
  FAddStr:=Default(TAddStr);
- Result:=_StringToJSONString(FAddStr,S,Strict);
+ _StringToJSONString(FAddStr,S,Strict);
+ Result:=FAddStr.GetStr;
  FAddStr.Free;
 end;
 
-function _StringToJSONString(Var FAddStr:TAddStr;const S:TJSONStringType;Strict:Boolean=False):TJSONStringType;
-Var
- I,L:SizeInt;
- P:PJSONCharType;
- C,T:AnsiChar;
+procedure _StringToJSONString(Var FAddStr:TAddStr;const S:TJSONStringType;Strict:Boolean=False); inline;
 begin
-  FAddStr.Reset;
-  I:=1;
-  Result:='';
-  L:=Length(S);
-  P:=PJSONCharType(S);
-  if Strict then T:='/' else T:=#0;
-  While (I<=L) do
-  begin
-    C:=AnsiChar(P^);
-    if (C in ['"',T,'\',#0..#31]) then
-    begin
-     FAddStr.AddChar('\');
-     Case C of
-       '\',
-       '/',
-       '"' : FAddStr.AddChar(C);
-       #8  : FAddStr.AddChar('b');
-       #9  : FAddStr.AddChar('t');
-       #10 : FAddStr.AddChar('n');
-       #12 : FAddStr.AddChar('f');
-       #13 : FAddStr.AddChar('r');
-     else
-      begin
-       FAddStr.AddChar('u');
-       FAddStr.AddStr(HexStr(Ord(C),4));
-      end;
-     end;
-    end else
-    begin
-     FAddStr.AddChar(c);
-    end;
-    Inc(I);
-    Inc(P);
-  end;
-  Result:=FAddStr.GetStr;
+ __StringToJSONString(FAddStr,PJSONCharType(S),Length(S),Strict);
 end;
 
-function TryStrToWord(const s:RawByteString;out i:Word):boolean; inline;
-var
- Error:word;
+procedure __StringToJSONString(Var FAddStr:TAddStr;P:PJSONCharType;Len:SizeInt;Strict:Boolean=False);
+Var
+ I:SizeInt;
+ C,T:AnsiChar;
 begin
- Val(s,i,Error);
- Result:=Error=0
+ I:=0;
+ if Strict then T:='/' else T:=#0;
+ While (I<Len) do
+ begin
+  C:=AnsiChar(P^);
+  if (C in ['"',T,'\',#0..#31]) then
+  begin
+   FAddStr.AddChar('\');
+   Case C of
+     '\',
+     '/',
+     '"' : FAddStr.AddChar(C);
+     #8  : FAddStr.AddChar('b');
+     #9  : FAddStr.AddChar('t');
+     #10 : FAddStr.AddChar('n');
+     #12 : FAddStr.AddChar('f');
+     #13 : FAddStr.AddChar('r');
+   else
+    begin
+     FAddStr.AddChar('u');
+     FAddStr.AddStr(HexStr(Ord(C),4));
+    end;
+   end;
+  end else
+  begin
+   FAddStr.AddChar(c);
+  end;
+  Inc(I);
+  Inc(P);
+ end;
 end;
 
 Function JSONStringToString(const S:TJSONStringType):TJSONStringType; inline;
@@ -293,60 +287,76 @@ Var
  FAddStr:TUtf8AddStr;
 begin
  FAddStr:=Default(TUtf8AddStr);
- Result:=_JSONStringToString(FAddStr,S);
+ _JSONStringToString(FAddStr,S);
+ Result:=FAddStr.GetStr;
  FAddStr.Free;
 end;
 
-function _JSONStringToString(Var FAddStr:TUtf8AddStr;const S:TJSONStringType):TJSONStringType;
-
-Var
-  I,L:SizeInt;
-  P:PJSONCharType;
-  w:Word;
-
+procedure _JSONStringToString(Var FAddStr:TUtf8AddStr;const S:TJSONStringType); inline;
 begin
-  FAddStr.Reset;
-  I:=1;
-  L:=Length(S);
-  Result:='';
-  P:=PJSONCharType(S);
-  While (I<=L) do
-  begin
-    if (P^='\') then
-    begin
-     Inc(P);
-     If (P^<>#0) then
-     begin
-      Inc(I);
-      Case AnsiChar(P^) of
-        //'\',
-        //'"',
-        //'/' : FAddStr.AddChar(P^);
-        'b' : FAddStr.AddChar(#8);
-        't' : FAddStr.AddChar(#9);
-        'n' : FAddStr.AddChar(#10);
-        'f' : FAddStr.AddChar(#12);
-        'r' : FAddStr.AddChar(#13);
-        'u' : begin
-               if TryStrToWord(Copy(S,I+1,4),W) then
-               begin
-                FAddStr.AddWideChar(WideChar(W));
-               end;
-               Inc(I,4);
-               Inc(P,4);
-              end;
-        else
-              FAddStr.AddChar(P^);
+ __JSONStringToString(FAddStr,PJSONCharType(S),Length(S));
+end;
+
+procedure __JSONStringToString(Var FAddStr:TUtf8AddStr;P:PJSONCharType;Len:SizeInt);
+Const
+ DifLo=Byte('a')-$A;
+ DifHi=Byte('A')-$A;
+Var
+ I,State:SizeInt;
+ w:Word;
+begin
+ State:=0;
+ I:=0;
+ While (I<Len) do
+ begin
+  Case State of
+   0:begin
+      if (P^='\') then
+      begin
+       State:=1;
+      end else
+      begin
+       FAddStr.AddChar(P^);
       end;
      end;
-    end else
-    begin
-     FAddStr.AddChar(P^);
-    end;
-    Inc(I);
-    Inc(P);
+   1:begin
+      Case P^ of
+       'b':FAddStr.AddChar(#8);
+       't':FAddStr.AddChar(#9);
+       'n':FAddStr.AddChar(#10);
+       'f':FAddStr.AddChar(#12);
+       'r':FAddStr.AddChar(#13);
+       'u':begin
+            State:=2;
+            w:=0;
+            Inc(I);
+            Inc(P);
+            Continue;
+           end;
+       else
+           FAddStr.AddChar(P^);
+      end;
+      State:=0;
+     end;
+   2..5:
+     begin
+      Case P^ of
+       '0'..'9':w:=(w shl 4) or (PByte(P)^ and $F);
+       'a'..'f':w:=(w shl 4) or (PByte(P)^-DifLo);
+       'A'..'F':w:=(w shl 4) or (PByte(P)^-DifHi);
+       else     w:=(w shl 4);
+      end;
+      Inc(State);
+      if (State=6) then
+      begin
+       FAddStr.AddWideChar(WideChar(W));
+       State:=0;
+      end;
+     end;
   end;
- Result:=FAddStr.GetStr;
+  Inc(I);
+  Inc(P);
+ end;
 end;
 
 function JSONTypeName(JSONType: TJSONType): String;

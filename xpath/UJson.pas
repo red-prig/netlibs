@@ -2143,6 +2143,11 @@ Var
   S.Write(PChar(T)^,Length(T));
  end;
 
+ Procedure W(Const T:TUtf8AddStr); inline;
+ begin
+  S.Write(T.FStr^,T.FLen);
+ end;
+
 begin
  FAddStr:=Default(TUtf8AddStr);
  J:=Default(TJsonStack);
@@ -2160,7 +2165,13 @@ begin
       W(Space(J.FCount));
      end;
 
-     W('"'+_StringToJSONString(FAddStr,LD^.GetName(LI))+'":');
+     FAddStr.Reset;
+     FAddStr.AddChar('"');
+     _StringToJSONString(FAddStr,LD^.GetName(LI));
+     FAddStr.AddChar('"');
+     FAddStr.AddChar(':');
+
+     W(FAddStr);
     end;
   end;
 
@@ -2211,7 +2222,11 @@ begin
    jitNumberFloat  :W(FloatAsStr(I^.Item.VFloat,'.'));
    jitString:
    begin
-    W('"'+_StringToJSONString(FAddStr,TJSONStringType(I^.Item.VData))+'"');
+    FAddStr.Reset;
+    FAddStr.AddChar('"');
+    _StringToJSONString(FAddStr,TJSONStringType(I^.Item.VData));
+    FAddStr.AddChar('"');
+    W(FAddStr);
    end;
    jitBoolean:
    begin
