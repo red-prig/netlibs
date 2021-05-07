@@ -2639,11 +2639,11 @@ begin
        d:=recv.state-4;
        t:=_min(len-i,8-d);
 
-       Dec(t);
-       recv.state:=5+t;
-       For d:=d to t do
+       recv.state:=recv.state+t;
+       While (t<>0) do
        begin
         PByte(@recv.FrameSize)[d]:=PByte(data)[i]; Inc(i);
+        Inc(d); Dec(t);
        end;
        if recv.state=12 then
        begin
@@ -2721,7 +2721,7 @@ begin
    //next
   end else
   begin
-   recv_frame[0]:=PByte(data)[i]; Inc(i);
+   recv_frame[0]:=b; Inc(i);
    recv.state:=1;
    Exit(i);
   end;
